@@ -21,18 +21,13 @@ const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
   const validator = new Validator(callback, input, customParams)
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'get-question-result'
+  const endpoint = validator.validated.data.endpoint || 'get-result-ea'
   const addr = validator.validated.data.userAddress
   const qId = validator.validated.data.questionId
-  const appId = process.env.APP_ID
+  const appId = process.env.APP_ID // REMEMBER to export the APP_ID!
   const urlParams = `?userAddress=${addr}&questionId=${qId}&appId=${appId}`
-  const url = `https://s6wsreqrlb.execute-api.us-east-1.amazonaws.com/default/${endpoint}${urlParams}`
-
-  const params = {
-    addr,
-    qId,
-    appId
-  }
+  const apiUrl = process.env.API_URL
+  const url = `${apiUrl}${endpoint}${urlParams}`
 
   // This is where you would add method and headers
   // you can add method like GET or POST and add it to the config
